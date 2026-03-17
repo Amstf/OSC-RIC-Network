@@ -1,0 +1,3 @@
+[submodule "OAI-GNB-Network"]
+	path = OAI-GNB-Network
+	url = https://github.com/Amstf/OAI-GNB-Network.git
