@@ -41,49 +41,8 @@ The RIC platform is deployed using [`my_ric_recipe.yaml`](my_ric_recipe.yaml), d
 
 The platform installation follows the [OSC RIC deployment guide](https://docs.o-ran-sc.org/projects/o-ran-sc-ric-plt-ric-dep/en/latest/installation-guides.html).
 
-Key settings:
-
-| Field | Value |
-|-------|-------|
-| `common.releasePrefix` | `r4` |
-| `extsvcplt.ricip` / `auxip` | `10.0.0.1` — auto-patched to the container's detected IP at deploy time |
-| `dbaas.enableHighAvailability` | `false` |
-| `dbaas.enablePodAntiAffinity` | `false` |
-| `e2mgr.globalRicId` | `AACCE`, MCC `310`, MNC `411` |
-| `e2term.alpha.dataVolSize` | `100Mi`, `local-storage` |
-
 All component images pull from `nexus3.o-ran-sc.org:10002/o-ran-sc` at the versions pinned in the recipe.
 
----
-
-## Expected Cluster State
-
-After a successful deployment, `kubectl get pods -A` should show all platform pods in `Running` or `Completed` state:
-
-```
-NAMESPACE     NAME                                                        READY   STATUS      RESTARTS      AGE
-kube-system   coredns-64fd4b4794-sm8zb                                    1/1     Running     1 (21d ago)   21d
-kube-system   local-path-provisioner-774c6665dc-lqgd2                     1/1     Running     1 (21d ago)   21d
-kube-system   metrics-server-7bfffcd44-5l525                              1/1     Running     1 (21d ago)   21d
-kube-system   svclb-r4-infrastructure-kong-proxy-cb93fab7-9ktr7           2/2     Running     2 (21d ago)   21d
-ricinfra      deployment-tiller-ricxapp-84b87b8c64-pnxsh                  1/1     Running     1 (21d ago)   21d
-ricinfra      tiller-secret-generator-gtkt7                               0/1     Completed   0             21d
-ricplt        deployment-ricplt-a1mediator-655587f8cc-v792b               1/1     Running     1 (21d ago)   21d
-ricplt        deployment-ricplt-alarmmanager-74dccd8f5-jw92k              1/1     Running     1 (21d ago)   21d
-ricplt        deployment-ricplt-appmgr-67dfb5db97-987cn                   1/1     Running     1 (21d ago)   21d
-ricplt        deployment-ricplt-e2mgr-56df7d7fdc-tj6mv                    1/1     Running     0             20d
-ricplt        deployment-ricplt-e2term-alpha-cf6785b4d-kmhc2              1/1     Running     0             20d
-ricplt        deployment-ricplt-o1mediator-74754f5f7c-jv56m               1/1     Running     1 (21d ago)   21d
-ricplt        deployment-ricplt-rtmgr-857c78bf8-6pst5                     1/1     Running     0             20d
-ricplt        deployment-ricplt-submgr-5bf7469cc4-rtl8m                   1/1     Running     1 (21d ago)   21d
-ricplt        deployment-ricplt-vespamgr-848f7bb874-5slb2                 1/1     Running     1 (21d ago)   21d
-ricplt        r4-infrastructure-kong-78657d8f48-lwvmf                     2/2     Running     2 (21d ago)   21d
-ricplt        r4-infrastructure-prometheus-alertmanager-b9cc56766-622xt   2/2     Running     2 (21d ago)   21d
-ricplt        r4-infrastructure-prometheus-server-6476958975-zmgfk        1/1     Running     1 (21d ago)   21d
-ricplt        statefulset-ricplt-dbaas-server-0                           1/1     Running     1 (21d ago)   21d
-```
-
----
 
 ## Helper Scripts
 
@@ -156,6 +115,36 @@ Then waits for each to finish rolling out and prints the final pod status.
 
 ---
 
+---
+
+## Expected Cluster State
+
+After a successful deployment, `kubectl get pods -A` should show all platform pods in `Running` or `Completed` state:
+
+```
+NAMESPACE     NAME                                                        READY   STATUS      RESTARTS      AGE
+kube-system   coredns-64fd4b4794-sm8zb                                    1/1     Running     1 (21d ago)   21d
+kube-system   local-path-provisioner-774c6665dc-lqgd2                     1/1     Running     1 (21d ago)   21d
+kube-system   metrics-server-7bfffcd44-5l525                              1/1     Running     1 (21d ago)   21d
+kube-system   svclb-r4-infrastructure-kong-proxy-cb93fab7-9ktr7           2/2     Running     2 (21d ago)   21d
+ricinfra      deployment-tiller-ricxapp-84b87b8c64-pnxsh                  1/1     Running     1 (21d ago)   21d
+ricinfra      tiller-secret-generator-gtkt7                               0/1     Completed   0             21d
+ricplt        deployment-ricplt-a1mediator-655587f8cc-v792b               1/1     Running     1 (21d ago)   21d
+ricplt        deployment-ricplt-alarmmanager-74dccd8f5-jw92k              1/1     Running     1 (21d ago)   21d
+ricplt        deployment-ricplt-appmgr-67dfb5db97-987cn                   1/1     Running     1 (21d ago)   21d
+ricplt        deployment-ricplt-e2mgr-56df7d7fdc-tj6mv                    1/1     Running     0             20d
+ricplt        deployment-ricplt-e2term-alpha-cf6785b4d-kmhc2              1/1     Running     0             20d
+ricplt        deployment-ricplt-o1mediator-74754f5f7c-jv56m               1/1     Running     1 (21d ago)   21d
+ricplt        deployment-ricplt-rtmgr-857c78bf8-6pst5                     1/1     Running     0             20d
+ricplt        deployment-ricplt-submgr-5bf7469cc4-rtl8m                   1/1     Running     1 (21d ago)   21d
+ricplt        deployment-ricplt-vespamgr-848f7bb874-5slb2                 1/1     Running     1 (21d ago)   21d
+ricplt        r4-infrastructure-kong-78657d8f48-lwvmf                     2/2     Running     2 (21d ago)   21d
+ricplt        r4-infrastructure-prometheus-alertmanager-b9cc56766-622xt   2/2     Running     2 (21d ago)   21d
+ricplt        r4-infrastructure-prometheus-server-6476958975-zmgfk        1/1     Running     1 (21d ago)   21d
+ricplt        statefulset-ricplt-dbaas-server-0                           1/1     Running     1 (21d ago)   21d
+```
+
+---
 ## Platform Stability Notes
 
 The OSC Near-RT RIC platform can be unstable in LXC-constrained environments. Common symptoms include pods stuck in `CrashLoopBackOff`, `Pending`, or failing readiness checks after a container restart or IP change.
